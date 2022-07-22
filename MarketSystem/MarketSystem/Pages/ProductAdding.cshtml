@@ -1,0 +1,26 @@
+﻿@page
+@model MarketSystem.Pages.ProductAddingModel
+@{
+    ViewData["Title"] = "Add Products";
+}
+
+<div class="text-center">
+    <h1 class="display-4">
+        Add Products
+    </h1>
+</div>
+
+<div class="input-group mb-3" style="width: 50%">
+    <input type="text" minlength="3" class="form-control" placeholder="Product name" aria-label="Product name" />
+</div>
+
+<div class="input-group mb-3" style="width: 15%">
+    <input type="number" min="1" class="form-control" placeholder="Product quantity" aria-label="Product quantity" />
+</div>
+
+<div class="input-group mb-3" style="width: 15%">
+    <input type="number" min="0" class="form-control" placeholder="Price" aria-label="Price" />
+</div>
+
+<button type="button" class="btn btn-primary btn-lg">Add</button>
+
