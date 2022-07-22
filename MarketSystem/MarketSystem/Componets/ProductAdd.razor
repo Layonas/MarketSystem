@@ -1,0 +1,22 @@
+﻿<div class="input-group mb-3" style="width: 50%">
+    <input type="text" minlength="3" @bind="btnVal" @bind:event="oninput" class="form-control" id="name" placeholder="Product name" aria-label="Product name" />
+</div>
+
+<div class="input-group mb-3" style="width: 15%">
+    <input type="number" min="1" class="form-control" id="quantity" placeholder="Product quantity" aria-label="Product quantity" />
+</div>
+
+<div class="input-group mb-3" style="width: 15%">
+    <input type="number" min="0" class="form-control" id="price" placeholder="Price" aria-label="Price" />
+</div>
+
+<button type="button" class="btn btn-primary btn-lg addButton" onclick="click" >@btnVal</button>
+
+@code {
+    private string btnVal = "";
+    void click()
+    {
+        btnVal = "Add";
+    }
+
+}

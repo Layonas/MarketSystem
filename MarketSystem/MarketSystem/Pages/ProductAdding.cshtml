@@ -1,4 +1,5 @@
 ﻿@page
+@using MarketSystem.Componets
 @model MarketSystem.Pages.ProductAddingModel
 @{
     ViewData["Title"] = "Add Products";
@@ -10,17 +11,7 @@
     </h1>
 </div>
 
-<div class="input-group mb-3" style="width: 50%">
-    <input type="text" minlength="3" class="form-control" placeholder="Product name" aria-label="Product name" />
-</div>
+@(await Html.RenderComponentAsync<ProductAdd>(RenderMode.ServerPrerendered))
 
-<div class="input-group mb-3" style="width: 15%">
-    <input type="number" min="1" class="form-control" placeholder="Product quantity" aria-label="Product quantity" />
-</div>
-
-<div class="input-group mb-3" style="width: 15%">
-    <input type="number" min="0" class="form-control" placeholder="Price" aria-label="Price" />
-</div>
-
-<button type="button" class="btn btn-primary btn-lg">Add</button>
+<script src="_framework/blazor.server.js"></script>
 
