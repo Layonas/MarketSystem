@@ -18,7 +18,15 @@ body {
 }
 
 .addButton {
+    /*right: 10px;*/
+    /*position: fixed;*/
+    /*bottom: 40px;*/
+    /*right: 10px;*/
+}
+
+.addButtonDiv {
     position: absolute;
     bottom: 40px;
     right: 10px;
+    border: 2px solid black;
 }

@@ -3,5 +3,10 @@
     "Name": "Bread",
     "Quantity": 17,
     "Price": 2.2
+  },
+  {
+    "Name": "Pancake",
+    "Quantity": 10,
+    "Price": 4
   }
 ]

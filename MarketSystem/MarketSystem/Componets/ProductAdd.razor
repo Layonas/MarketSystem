@@ -6,18 +6,27 @@
 @inject ILogger<ProductAdd> logger;
 
 <div class="input-group mb-3" style="width: 50%">
-    <input type="text" minlength="3" @oninput="@(@e => Name = e.Value.ToString())" class="form-control" id="name" placeholder="Product name" aria-label="Product name" />
+    <input type="text" minlength="3" @bind="@Name" @oninput="@(@e => Name = e.Value.ToString())" class="form-control" id="name" placeholder="Product name" aria-label="Product name" />
 </div>
 
 <div class="input-group mb-3" style="width: 15%">
-    <input type="number" min="1" @oninput="@(e => Quantity = Convert.ToInt32(e.Value))" class="form-control" id="quantity" placeholder="Product quantity" aria-label="Product quantity" />
+    <input type="number" min="1" @bind="@Quantity" @oninput="@(e => Quantity = Convert.ToInt32(e.Value))" class="form-control" id="quantity" placeholder="Product quantity" aria-label="Product quantity" />
 </div>
 
 <div class="input-group mb-3" style="width: 15%">
-    <input type="number" min="0" @oninput="@(e => Price = Convert.ToDecimal(e.Value))" class="form-control" id="price" placeholder="Price" aria-label="Price" />
+    <input type="number" min="0" @bind="@Price" @oninput="@(e => Price = Convert.ToDecimal(e.Value))" class="form-control" id="price" placeholder="Price" aria-label="Price" />
 </div>
 
-<button type="button" class="btn btn-primary btn-lg addButton" @onclick="click" >@*@btnVal*@Add</button>
+<div class="addButtonDiv">
+    <div class="text-center">
+        <h5 class="text-muted ">
+            Product has been added successfully.
+        </h5>
+    </div>
+    <div class="text-end">
+        <button type="button" class="btn btn-primary btn-lg addButton" @onclick="click" >@*@btnVal*@Add</button>
+    </div>
+</div>
 
 @code {
     //[Parameter]
@@ -30,19 +39,22 @@
     //}
 
     [Parameter]
-    public string Name { get; set; }
+    public string Name { get; set; } = "";
 
     [Parameter]
-    public int Quantity { get; set; }
+    public int Quantity { get; set; } = 1;
 
     [Parameter]
-    public decimal Price { get; set; }
+    public decimal Price { get; set; } = 0;
 
     void click() {
-        Console.WriteLine($"Name: {Name}, quantity: {Quantity}, Price: {Price}.");
+        //Console.WriteLine($"Name: {Name}, quantity: {Quantity}, Price: {Price}.");
         Product product = new Product(Name, Quantity, Price);
         ProductService.AddProduct(product);
         logger.LogInformation($"Name: {Name}, quantity: {Quantity}, Price: {Price}.");
+        Name = "";
+        Quantity = 1;
+        Price = 0;
     }
     
 }
