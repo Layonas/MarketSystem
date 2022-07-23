@@ -1,3 +1,3 @@
 # Market System
 Added feature to add a single product
-Products can duplicate
+Cannot duplicate products with the same name

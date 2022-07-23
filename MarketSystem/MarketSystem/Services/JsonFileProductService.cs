@@ -60,12 +60,16 @@ namespace MarketSystem.Services
             }
 
             var products = GetProducts();
-
-            products = products.Append(product);
-            Console.WriteLine(products);
-
-            Console.WriteLine(product);
-            Console.WriteLine(products.Count());
+            if (products.Contains(product))
+            {
+                int? quantity = products.First(p => p.Name == product.Name).Quantity;
+                quantity += product.Quantity;
+                products.First(p => p.Name == product.Name).Quantity = quantity;
+            }
+            else
+            {
+                products = products.Append(product);
+            }
 
             using (var writer = File.OpenWrite(JsonFileName))
             {

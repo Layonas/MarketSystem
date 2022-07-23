@@ -20,6 +20,16 @@ namespace MarketSystem.Models
             this.Price = price;
         }
 
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) return false;
+            if (obj.GetType() != typeof(Product)) return false;
+            Product objProduct = (Product)obj;
+            if (this.Name.CompareTo(objProduct.Name) == 0)
+                return true;
+            return false;
+        }
+
         public override string ToString()
         {
             return JsonSerializer.Serialize<Product>(this);
