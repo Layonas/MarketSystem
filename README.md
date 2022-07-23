@@ -1,2 +1,3 @@
 # Market System
-## Currently missing features
+Added feature to add a single product
+Products can duplicate
