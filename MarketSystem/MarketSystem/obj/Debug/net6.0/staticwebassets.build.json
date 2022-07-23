@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ws5k5nhCpDJbbNh41JaH6Hlvzyoy1COkeBxhfnwpOj4=",
+  "Hash": "0JnJr207KYUFfBeOF7+/jrtgZt/MT7pskN8/2zJ6www=",
   "Source": "MarketSystem",
   "BasePath": "_content/MarketSystem",
   "Mode": "Default",
@@ -202,6 +202,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "C:\\Users\\Kompiukas\\source\\repos\\MarketSystem\\MarketSystem\\wwwroot\\Data\\products.json",
+      "SourceId": "MarketSystem",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Kompiukas\\source\\repos\\MarketSystem\\MarketSystem\\wwwroot\\",
+      "BasePath": "_content/MarketSystem",
+      "RelativePath": "Data/products.json",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Data\\products.json"
     },
     {
       "Identity": "C:\\Users\\Kompiukas\\source\\repos\\MarketSystem\\MarketSystem\\wwwroot\\favicon.ico",

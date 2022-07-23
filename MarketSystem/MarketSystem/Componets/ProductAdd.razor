@@ -1,22 +1,48 @@
-﻿<div class="input-group mb-3" style="width: 50%">
-    <input type="text" minlength="3" @bind="btnVal" @bind:event="oninput" class="form-control" id="name" placeholder="Product name" aria-label="Product name" />
+﻿@using MarketSystem.Models
+@using MarketSystem.Services    
+@using Microsoft.AspNetCore.Components.Web;
+@using Microsoft.Extensions.DependencyInjection;
+@inject JsonFileProductService ProductService;
+@inject ILogger<ProductAdd> logger;
+
+<div class="input-group mb-3" style="width: 50%">
+    <input type="text" minlength="3" @oninput="@(@e => Name = e.Value.ToString())" class="form-control" id="name" placeholder="Product name" aria-label="Product name" />
 </div>
 
 <div class="input-group mb-3" style="width: 15%">
-    <input type="number" min="1" class="form-control" id="quantity" placeholder="Product quantity" aria-label="Product quantity" />
+    <input type="number" min="1" @oninput="@(e => Quantity = Convert.ToInt32(e.Value))" class="form-control" id="quantity" placeholder="Product quantity" aria-label="Product quantity" />
 </div>
 
 <div class="input-group mb-3" style="width: 15%">
-    <input type="number" min="0" class="form-control" id="price" placeholder="Price" aria-label="Price" />
+    <input type="number" min="0" @oninput="@(e => Price = Convert.ToDecimal(e.Value))" class="form-control" id="price" placeholder="Price" aria-label="Price" />
 </div>
 
-<button type="button" class="btn btn-primary btn-lg addButton" onclick="click" >@btnVal</button>
+<button type="button" class="btn btn-primary btn-lg addButton" @onclick="click" >@*@btnVal*@Add</button>
 
 @code {
-    private string btnVal = "";
-    void click()
-    {
-        btnVal = "Add";
-    }
+    //[Parameter]
+    //public string btnVal { get; set; } = "Add";
 
+    //void click()
+    //{
+    //    btnVal = "asdsadsa";
+    //    InvokeAsync(() => StateHasChanged());
+    //}
+
+    [Parameter]
+    public string Name { get; set; }
+
+    [Parameter]
+    public int Quantity { get; set; }
+
+    [Parameter]
+    public decimal Price { get; set; }
+
+    void click() {
+        Console.WriteLine($"Name: {Name}, quantity: {Quantity}, Price: {Price}.");
+        Product product = new Product(Name, Quantity, Price);
+        ProductService.AddProduct(product);
+        logger.LogInformation($"Name: {Name}, quantity: {Quantity}, Price: {Price}.");
+    }
+    
 }
