@@ -7,28 +7,35 @@
 @inject ILogger<ProductAdd> logger;
 @inject IJSRuntime JS;
 
-<div class="input-group mb-3" style="width: 50%">
-    <input type="text" minlength="3" @bind="@Name" @oninput="@(@e => Name = e.Value.ToString())" class="form-control" id="name" placeholder="Product name" aria-label="Product name" />
-</div>
-
-<div class="input-group mb-3" style="width: 15%">
-    <input type="number" min="1" @bind="@Quantity" @oninput="@(e => Quantity = Convert.ToInt32(e.Value))" class="form-control" id="quantity" placeholder="Product quantity" aria-label="Product quantity" />
-</div>
-
-<div class="input-group mb-3" style="width: 15%">
-    <input type="number" min="0" @bind="@Price" @oninput="@(e => Price = Convert.ToDecimal(e.Value))" class="form-control" id="price" placeholder="Price" aria-label="Price" />
-</div>
-
-<div class="addButtonDiv">
-    <div class="text-center product-succesfull" id="add-text">
-        <h5 class="text-muted" style="user-select: none">
-            Product has been added successfully.
-        </h5>
+<form class="needs-validation" novalidate>
+    <div class="input-group mb-3 has-validation" style="width: 50%">
+        <input type="text" minlength="3" pattern="[a-zA-Z]{3,}" @bind="@Name" class="form-control" id="name" placeholder="Product name" aria-label="Product name" required/>
+        <div class="invalid-feedback">
+            Name has to be of atleast lenght 3 an contain only letters
+        </div>
     </div>
-    <div class="text-end addButton">
-        <button type="button" class="btn btn-primary btn-lg addButton" @onclick="click" >@*@btnVal*@Add</button>
+
+    <div class="input-group mb-3" style="width: 15%">
+        <input type="number" min="1" @bind="@Quantity" class="form-control" id="quantity" placeholder="Product quantity" aria-label="Product quantity" />
     </div>
-</div>
+
+    <div class="input-group mb-3" style="width: 15%">
+        <input type="number" min="0" @bind="@Price" class="form-control" id="price" placeholder="Price" aria-label="Price" required/>
+    </div>
+    
+    <div class="addButtonDiv">
+        <div class="text-center product-succesfull" id="add-text">
+            <h5 class="text-muted" style="user-select: none">
+                Product has been added successfully.
+            </h5>
+        </div>
+        <div class="text-end addButton">
+            <button type="button" class="btn btn-primary btn-lg addButton" @onclick="click" >@*@btnVal*@Add</button>
+        </div>
+    </div>
+</form>
+
+
 
 @code {
     //[Parameter]
@@ -49,15 +56,22 @@
     [Parameter]
     public decimal Price { get; set; } = 0;
 
-    void click() {
-        //Console.WriteLine($"Name: {Name}, quantity: {Quantity}, Price: {Price}.");
+    async void click() {
+
+        var res = await JS.InvokeAsync<bool>("checkValidity");
+
+        if(!res)
+            return;
+
         Product product = new Product(Name, Quantity, Price);
         ProductService.AddProduct(product);
         logger.LogInformation($"Name: {Name}, quantity: {Quantity}, Price: {Price}.");
         Name = "";
         Quantity = 1;
         Price = 0;
-        JS.InvokeVoidAsync("updateAddAnimationState");
+        await JS.InvokeVoidAsync("updateAddAnimationState");
+        await InvokeAsync(() => StateHasChanged());
+        await JS.InvokeVoidAsync("removeValidation");
     }
     
 }

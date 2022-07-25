@@ -28,7 +28,7 @@ body {
     position: absolute;
     bottom: 40px;
     right: 10px;
-    border: 2px solid black;
+    /*border: 2px solid black;*/
 }
 
 .product-succesfull {
