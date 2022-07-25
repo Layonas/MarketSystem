@@ -20,7 +20,10 @@
     </div>
 
     <div class="input-group mb-3" style="width: 15%">
-        <input type="number" min="0" @bind="@Price" class="form-control" id="price" placeholder="Price" aria-label="Price" required/>
+        <input type="number" min="0.01" step=".01" @bind="@Price" class="form-control" id="price" placeholder="Price" aria-label="Price" required/>
+        <div class="invalid-feedback">
+            You cannnot have the price negative or at 0
+        </div>
     </div>
     
     <div class="addButtonDiv">
