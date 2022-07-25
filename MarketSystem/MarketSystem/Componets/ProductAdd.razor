@@ -2,8 +2,10 @@
 @using MarketSystem.Services    
 @using Microsoft.AspNetCore.Components.Web;
 @using Microsoft.Extensions.DependencyInjection;
+@using Microsoft.JSInterop
 @inject JsonFileProductService ProductService;
 @inject ILogger<ProductAdd> logger;
+@inject IJSRuntime JS;
 
 <div class="input-group mb-3" style="width: 50%">
     <input type="text" minlength="3" @bind="@Name" @oninput="@(@e => Name = e.Value.ToString())" class="form-control" id="name" placeholder="Product name" aria-label="Product name" />
@@ -18,12 +20,12 @@
 </div>
 
 <div class="addButtonDiv">
-    <div class="text-center">
-        <h5 class="text-muted ">
+    <div class="text-center product-succesfull" id="add-text">
+        <h5 class="text-muted" style="user-select: none">
             Product has been added successfully.
         </h5>
     </div>
-    <div class="text-end">
+    <div class="text-end addButton">
         <button type="button" class="btn btn-primary btn-lg addButton" @onclick="click" >@*@btnVal*@Add</button>
     </div>
 </div>
@@ -55,6 +57,7 @@
         Name = "";
         Quantity = 1;
         Price = 0;
+        JS.InvokeVoidAsync("updateAddAnimationState");
     }
     
 }

@@ -14,4 +14,14 @@
 @(await Html.RenderComponentAsync<ProductAdd>(RenderMode.ServerPrerendered))
 
 <script src="_framework/blazor.server.js"></script>
+<script> 
+     function updateAddAnimationState(){
 
+         var textDiv=document.getElementById("add-text");
+         textDiv.style.animation='none' ;
+         textDiv.offsetHeight; /* trigger reflow */
+         textDiv.style.animation=null;
+         textDiv.style.animationPlayState="running" ;
+         console.log("Should be playing");
+     }
+</script>

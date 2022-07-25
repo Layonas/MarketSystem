@@ -30,3 +30,30 @@ body {
     right: 10px;
     border: 2px solid black;
 }
+
+.product-succesfull {
+    position: relative;
+    opacity: 0;
+    animation: product_added 5s ease-in-out normal;
+    animation-play-state: paused;
+}
+
+@keyframes product_added {
+    from {
+        bottom: -30px;
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    75% {
+        opacity: 0.75;
+    }
+
+    to {
+        bottom: 50px;
+        opacity: 0;
+    }
+}
