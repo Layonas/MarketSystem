@@ -16,6 +16,27 @@
 <script src="_framework/blazor.server.js"></script>
 <script> 
 
+    function addDisableFields(){
+        var name = document.getElementById("name");
+        var price = document.getElementById("price");
+
+        name.setAttribute("disabled", "");
+        price.setAttribute("disabled", "");
+    }
+
+    function removeDisableFields() {
+        var name = document.getElementById("name");
+        var price = document.getElementById("price");
+
+        name.removeAttribute("disabled", "");
+        price.removeAttribute("disabled", ""); 
+    }
+
+    function changeDropdownToDefault() {
+        const select = document.getElementById("productSelect");
+        select.value = "default";
+    }
+
     function checkValidity() {
 
         console.log("Checking validity!");
@@ -27,7 +48,7 @@
         Array.prototype.slice.call(forms)
         .forEach(function (form) {
             if (!form.checkValidity()) {
-                console.log(form);
+                //console.log(form);
                 form.classList.add('was-validated');
                 valid = false;
             }

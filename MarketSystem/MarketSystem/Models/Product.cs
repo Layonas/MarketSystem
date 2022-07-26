@@ -13,7 +13,7 @@ namespace MarketSystem.Models
         public Product()
         { }
 
-        public Product(string name, int quantity, decimal price)
+        public Product(string? name, int quantity, decimal? price)
         {
             this.Name = name;
             this.Quantity = quantity;

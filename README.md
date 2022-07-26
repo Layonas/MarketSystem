@@ -1,4 +1,3 @@
 # Market System
-Added text animation upon pressing the button Add to notify that an item was added  
-Added validation for the name because it acts as id  
-Added validation for the price
+Added dropdown to select allready added products  
+When a product is selected from the dropdown the name and the price cannot be changed
