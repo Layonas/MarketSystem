@@ -1,4 +1,5 @@
 ﻿@page
+@using MarketSystem.Componets
 @model MarketSystem.Pages.ProductAddingModel
 @{
     ViewData["Title"] = "Add Products";
@@ -10,17 +11,80 @@
     </h1>
 </div>
 
-<div class="input-group mb-3" style="width: 50%">
-    <input type="text" minlength="3" class="form-control" placeholder="Product name" aria-label="Product name" />
-</div>
+@(await Html.RenderComponentAsync<ProductAdd>(RenderMode.ServerPrerendered))
 
-<div class="input-group mb-3" style="width: 15%">
-    <input type="number" min="1" class="form-control" placeholder="Product quantity" aria-label="Product quantity" />
-</div>
+<script src="_framework/blazor.server.js"></script>
+<script> 
 
-<div class="input-group mb-3" style="width: 15%">
-    <input type="number" min="0" class="form-control" placeholder="Price" aria-label="Price" />
-</div>
+    function addDisableFields(){
+        var name = document.getElementById("name");
+        var price = document.getElementById("price");
 
-<button type="button" class="btn btn-primary btn-lg">Add</button>
+        name.setAttribute("disabled", "");
+        price.setAttribute("disabled", "");
+    }
 
+    function removeDisableFields() {
+        var name = document.getElementById("name");
+        var price = document.getElementById("price");
+
+        name.removeAttribute("disabled", "");
+        price.removeAttribute("disabled", ""); 
+    }
+
+    function changeDropdownToDefault() {
+        const select = document.getElementById("productSelect");
+        select.value = "default";
+    }
+
+    function checkValidity() {
+
+        console.log("Checking validity!");
+
+        var valid = true;
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+            if (!form.checkValidity()) {
+                //console.log(form);
+                form.classList.add('was-validated');
+                valid = false;
+            }
+        //    form.addEventListener('button', function (event) {
+        //    if (!form.checkValidity()) {
+        //        console.log("does not validate");
+        //        event.preventDefault()
+        //        event.stopPropagation()
+        //    }
+
+        //    form.classList.add('was-validated')
+        //    }, false)
+        })
+        return valid;
+    }
+
+    function removeValidation() {
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+            if (!form.checkValidity()) {
+                form.classList.remove('was-validated');
+            }
+        })
+        console.log("removed validation");
+    }
+
+     function updateAddAnimationState(){
+
+         var textDiv=document.getElementById("add-text");
+         textDiv.style.animation='none' ;
+         textDiv.offsetHeight; /* trigger reflow */
+         textDiv.style.animation=null;
+         textDiv.style.animationPlayState="running" ;
+         console.log("Should be playing");
+     }
+</script>

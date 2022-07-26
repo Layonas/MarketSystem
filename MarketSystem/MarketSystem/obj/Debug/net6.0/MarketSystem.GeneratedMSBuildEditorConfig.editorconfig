@@ -15,6 +15,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\Kompiukas\source\repos\MarketSystem\MarketSystem
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/Kompiukas/source/repos/MarketSystem/MarketSystem/Componets/ProductAdd.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZXRzXFByb2R1Y3RBZGQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Kompiukas/source/repos/MarketSystem/MarketSystem/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

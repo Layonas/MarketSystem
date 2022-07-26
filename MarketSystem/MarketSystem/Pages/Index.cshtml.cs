@@ -8,7 +8,7 @@ namespace MarketSystem.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        public JsonFileProductService _productService;
+        public JsonFileProductService _productService { get; }
         public IEnumerable<Product> products { get; private set; }
 
         public IndexModel(

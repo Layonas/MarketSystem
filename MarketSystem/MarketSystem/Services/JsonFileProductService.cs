@@ -23,16 +23,66 @@ namespace MarketSystem.Services
         public IEnumerable<Product> GetProducts()
         {
             if (File.Exists(JsonFileName))
-                using (var jsonFileReader = File.OpenText(JsonFileName))
+            {
+                using (StreamReader reader = new StreamReader(JsonFileName))
                 {
-                    return JsonSerializer.Deserialize<Product[]>(jsonFileReader.ReadToEnd(),
+                    string json = reader.ReadToEnd();
+                    if (json.Length == 0)
+                        return Enumerable.Empty<Product>();
+
+                    IEnumerable<Product>? products = JsonSerializer.Deserialize<IEnumerable<Product>>(json,
                         new JsonSerializerOptions
                         {
                             PropertyNameCaseInsensitive = true
                         });
+
+                    if (products is null)
+                        return Enumerable.Empty<Product>();
+                    else
+                        return products;
                 }
+                //using var jsonFileReader = File.OpenText(JsonFileName);
+                //return JsonSerializer.Deserialize<Product[]>(jsonFileReader.ReadToEnd(),
+                //    new JsonSerializerOptions
+                //    {
+                //        PropertyNameCaseInsensitive = true
+                //    });
+            }
             else
                 return Enumerable.Empty<Product>();
+        }
+
+        public void AddProduct(Product product)
+        {
+            if (!File.Exists(JsonFileName))
+            {
+                File.Create(JsonFileName);
+            }
+
+            var products = GetProducts();
+            if (products.Contains(product))
+            {
+                int? quantity = products.First(p => p.Name == product.Name).Quantity;
+                quantity += product.Quantity;
+                products.First(p => p.Name == product.Name).Quantity = quantity;
+            }
+            else
+            {
+                products = products.Append(product);
+            }
+
+            using (var writer = File.OpenWrite(JsonFileName))
+            {
+                JsonSerializer.Serialize<IEnumerable<Product>>(
+                    new Utf8JsonWriter(writer, new JsonWriterOptions
+                    {
+                        SkipValidation = true,
+                        Indented = true
+                    }
+                    ),
+                    products);
+                writer.Close();
+            }
         }
     }
 }

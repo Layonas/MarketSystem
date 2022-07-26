@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Data\" />
+    <None Include="node_modules/**" />
   </ItemGroup>
 
 </Project>

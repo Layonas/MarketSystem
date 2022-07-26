@@ -1,18 +1,59 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+.addButton {
+    /*right: 10px;*/
+    /*position: fixed;*/
+    /*bottom: 40px;*/
+    /*right: 10px;*/
+}
+
+.addButtonDiv {
+    position: absolute;
+    bottom: 40px;
+    right: 10px;
+    /*border: 2px solid black;*/
+}
+
+.product-succesfull {
+    position: relative;
+    opacity: 0;
+    animation: product_added 5s ease-in-out normal;
+    animation-play-state: paused;
+}
+
+@keyframes product_added {
+    from {
+        bottom: -30px;
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    75% {
+        opacity: 0.75;
+    }
+
+    to {
+        bottom: 50px;
+        opacity: 0;
+    }
 }

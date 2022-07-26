@@ -1,0 +1,115 @@
+﻿@using MarketSystem.Models
+@using MarketSystem.Services    
+@using Microsoft.AspNetCore.Components.Web;
+@using Microsoft.Extensions.DependencyInjection;
+@using Microsoft.JSInterop
+@inject JsonFileProductService ProductService;
+@inject ILogger<ProductAdd> logger;
+@inject IJSRuntime JS;
+
+<form class="needs-validation" novalidate>
+    <div class="input-group mb-3">
+        <select value="@selectedProduct" id="productSelect" class="form-select" @onchange="(e => selection(e.Value.ToString()))">
+            <option value="default">Available products</option>
+            @foreach(var product in ProductService.GetProducts())
+            {
+                <option value="@product.Name">@product.Name</option>
+            }
+        </select>
+    </div>
+
+    <div class="input-group mb-3 has-validation" style="width: 50%">
+        <input type="text" minlength="3" pattern="[a-zA-Z]{3,}" @bind="@Name" class="form-control" id="name" placeholder="Product name" aria-label="Product name" required/>
+        <div class="invalid-feedback">
+            Name has to be of atleast lenght 3 an contain only letters
+        </div>
+    </div>
+
+    <div class="input-group mb-3" style="width: 15%">
+        <input type="number" min="1" @bind="@Quantity" class="form-control" id="quantity" placeholder="Product quantity" aria-label="Product quantity" />
+    </div>
+
+    <div class="input-group mb-3" style="width: 15%">
+        <input type="number" min="0.01" step=".01" @bind="@Price" class="form-control" id="price" placeholder="Price" aria-label="Price" required/>
+        <div class="invalid-feedback">
+            You cannnot have the price negative or at 0
+        </div>
+    </div>
+    
+    <div class="addButtonDiv">
+        <div class="text-center product-succesfull" id="add-text">
+            <h5 class="text-muted" style="user-select: none">
+                Product has been added successfully.
+            </h5>
+        </div>
+        <div class="text-end addButton">
+            <button type="button" class="btn btn-primary btn-lg addButton" @onclick="click" >Add</button>
+        </div>
+    </div>
+</form>
+
+
+
+@code {
+    //[Parameter]
+    //public string btnVal { get; set; } = "Add";
+
+    //void click()
+    //{
+    //    btnVal = "asdsadsa";
+    //    InvokeAsync(() => StateHasChanged());
+    //}
+
+    [Parameter]
+    public string? Name { get; set; } = "";
+
+    [Parameter]
+    public int Quantity { get; set; } = 1;
+
+    [Parameter]
+    public decimal? Price { get; set; } = 0;
+
+    [Parameter]
+    public string selectedProduct { get; set; } = "default";
+
+    async void click() {
+
+        var res = await JS.InvokeAsync<bool>("checkValidity");
+        //selecteProduct does not change the value of the <select>
+        selectedProduct = "default";
+
+        if(!res)
+            return;
+
+        Product product = new Product(Name, Quantity, Price);
+        ProductService.AddProduct(product);
+        logger.LogInformation($"Name: {Name}, quantity: {Quantity}, Price: {Price}.");
+        Name = "";
+        Quantity = 1;
+        Price = 0;
+        await JS.InvokeVoidAsync("updateAddAnimationState");
+        await InvokeAsync(() => StateHasChanged());
+        await JS.InvokeVoidAsync("removeValidation");
+        await JS.InvokeVoidAsync("removeDisableFields");
+        await JS.InvokeVoidAsync("changeDropdownToDefault");
+    }
+
+    void selection(string? id)
+    {
+        if (id?.CompareTo("Available products") == 0)
+        {
+            Name = "";
+            Price = 0;
+            JS.InvokeVoidAsync("removeDisableFields");
+            return;
+        }
+
+        Product product = ProductService.GetProducts().First(p => p.Name == id);
+
+        Name = product.Name;
+        Price = product.Price;
+        JS.InvokeVoidAsync("addDisableFields");
+
+    }
+
+}
