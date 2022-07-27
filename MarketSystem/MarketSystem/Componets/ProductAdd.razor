@@ -19,7 +19,7 @@
     </div>
 
     <div class="input-group mb-3 has-validation" style="width: 50%">
-        <input type="text" minlength="3" pattern="[a-zA-Z]{3,}" @bind="@Name" class="form-control" id="name" placeholder="Product name" aria-label="Product name" required/>
+        <input type="text" minlength="3" pattern="[a-zA-Z ]{3,}" @bind="@Name" @oninput="@(e => checkAvailability(e.Value.ToString()))" class="form-control" id="name" placeholder="Product name" aria-label="Product name" required/>
         <div class="invalid-feedback">
             Name has to be of atleast lenght 3 an contain only letters
         </div>
@@ -72,6 +72,8 @@
     [Parameter]
     public string selectedProduct { get; set; } = "default";
 
+    private IEnumerable<Product>? products;
+
     async void click() {
 
         var res = await JS.InvokeAsync<bool>("checkValidity");
@@ -91,12 +93,13 @@
         await InvokeAsync(() => StateHasChanged());
         await JS.InvokeVoidAsync("removeValidation");
         await JS.InvokeVoidAsync("removeDisableFields");
-        await JS.InvokeVoidAsync("changeDropdownToDefault");
+        await JS.InvokeVoidAsync("changeDropdownValue", selectedProduct);
     }
 
     void selection(string? id)
     {
-        if (id?.CompareTo("Available products") == 0)
+        Console.WriteLine(id);
+        if (id?.CompareTo("default") == 0)
         {
             Name = "";
             Price = 0;
@@ -110,6 +113,35 @@
         Price = product.Price;
         JS.InvokeVoidAsync("addDisableFields");
 
+    }
+
+    void checkAvailability(string? name)
+    {
+        if (name is null || name.Length < 3)
+            return;
+
+        Product? product = null;
+
+        if (products is null)
+            return;
+
+        foreach (var p in products)
+            if (p.Name == name)
+                product = p;
+
+        if (product is null)
+            return;
+
+        Name = product?.Name;
+        Price = product?.Price;
+        JS.InvokeVoidAsync("addDisableFields");
+        JS.InvokeVoidAsync("changeDropdownValue", Name);
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        products = ProductService.GetProducts();
     }
 
 }
