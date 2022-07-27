@@ -1,0 +1,28 @@
+﻿@using Microsoft.AspNetCore.Components.Web;
+@using Models;
+@using Services;
+@inject JsonFileProductService productService;
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>In store</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var p in productService.GetProducts())
+        {
+            <tr>
+                <th>@p.Name</th>
+                <th>@p.Quantity</th>
+                <th>@p.Price</th>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+
+}
