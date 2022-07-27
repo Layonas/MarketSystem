@@ -1,0 +1,70 @@
+﻿@using Microsoft.AspNetCore.Components.Web;
+@using Models;
+@using Services;
+@inject JsonFileProductService productService;
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>In store</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var p in productService.GetProducts())
+        {
+            <tr @onclick="@(e => SelectProduct(p))" data-bs-toggle="modal" data-bs-target="#productModal">
+                <th>@p.Name</th>
+                <th>@p.Quantity</th>
+                <th>@p.Price</th>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        @if(product is not null)
+        {
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productTitle">@product.Name</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">@product.Name</p>
+                            <p class="card-text">@product.Quantity</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="number" min="0" max="@product.Quantity" @bind="@productList[product.Name]" placeholder="Amount">
+                    <button type="button" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    Product? product;
+    Dictionary<string, int> productList;
+
+    void SelectProduct(Product p)
+    {
+        product = p;
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        productList = new Dictionary<string, int>();
+        foreach (var p in productService.GetProducts())
+            productList.Add(p.Name, 0);
+
+    }
+
+}

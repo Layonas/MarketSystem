@@ -32,9 +32,9 @@
         price.removeAttribute("disabled", ""); 
     }
 
-    function changeDropdownToDefault() {
+    function changeDropdownValue(id) {
         const select = document.getElementById("productSelect");
-        select.value = "default";
+        select.value = id;
     }
 
     function checkValidity() {

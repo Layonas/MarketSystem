@@ -13,5 +13,45 @@
     "Name": "Banana",
     "Quantity": 7,
     "Price": 2
+  },
+  {
+    "Name": "Burger",
+    "Quantity": 3,
+    "Price": 3.4
+  },
+  {
+    "Name": "Cookie",
+    "Quantity": 2,
+    "Price": 1
+  },
+  {
+    "Name": "Mineral Water",
+    "Quantity": 3,
+    "Price": 1
+  },
+  {
+    "Name": "Soda",
+    "Quantity": 1,
+    "Price": 2
+  },
+  {
+    "Name": "Pineapple",
+    "Quantity": 1,
+    "Price": 2
+  },
+  {
+    "Name": "Apple",
+    "Quantity": 1,
+    "Price": 0.4
+  },
+  {
+    "Name": "Donut",
+    "Quantity": 1,
+    "Price": 0.4
+  },
+  {
+    "Name": "Juice",
+    "Quantity": 1,
+    "Price": 3
   }
 ]
