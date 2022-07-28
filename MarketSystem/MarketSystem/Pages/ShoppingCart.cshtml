@@ -1,0 +1,19 @@
+﻿@page
+@using MarketSystem.Componets
+@model MarketSystem.Pages.ShoppingCartModel
+@{
+    ViewData["Title"] = "Shopping cart.";
+}
+
+<div class="text-center">
+    <h1 class="display-4">
+        Your shopping cart
+    </h1>
+</div>
+
+@(await Html.RenderComponentAsync<ShoppingCartListing>(RenderMode.ServerPrerendered))
+
+<script src="_framework/blazor.server.js"></script>
+
+
+

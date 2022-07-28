@@ -5,7 +5,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<JsonFileProductService>();
+builder.Services.AddTransient<ShopCartService>();
 
 //builder.Logging.SetMinimumLevel(LogLevel.Information);
 

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
+    "products": [
+      {
+        "Name": "Burger",
+        "Quantity": 5,
+        "Price": 3.4
+      },
+      {
+        "Name": "Apple",
+        "Quantity": 1,
+        "Price": 0.4
+      },
+      {
+        "Name": "Pancake",
+        "Quantity": 1,
+        "Price": 4
+      }
+    ]
+  }
+]
