@@ -25,6 +25,7 @@ namespace MarketSystem.Services
                 string json = reader.ReadToEnd();
                 if (json.Length == 0)
                 {
+                    reader.Close();
                     var cart = new ShopCart(id, Enumerable.Empty<Product>());
                     registerCart(cart);
                     return cart;
@@ -33,6 +34,7 @@ namespace MarketSystem.Services
 
                 if (shopCarts is null || !shopCarts.Any(cart => cart?.id?.CompareTo(id) == 0))
                 {
+                    reader.Close();
                     var cart = new ShopCart(id, Enumerable.Empty<Product>());
                     registerCart(cart);
                     return cart;
@@ -49,14 +51,21 @@ namespace MarketSystem.Services
             if (shopCart is null)
                 return;
 
-            shopCart.products = shopCart?.products?.Append(product);
+            if (!shopCart.products.Contains(product))
+                shopCart.products = shopCart?.products?.Append(product);
+            else
+                shopCart.products.First(p => p.Name.CompareTo(product.Name) == 0).Quantity += product.Quantity;
+
+            updateShoppingCart(shopCart);
         }
 
         private void updateShoppingCart(ShopCart cart)
         {
             var shoppingCarts = GetShopCarts();
 
-            shoppingCarts = shoppingCarts?.Append(cart);
+            shoppingCarts.First(c => c.id?.CompareTo(cart?.id) == 0).products = cart.products;
+
+            //shoppingCarts = shoppingCarts?.Append(cart);
 
             using (var writer = File.OpenWrite(fileName))
             {
@@ -79,6 +88,10 @@ namespace MarketSystem.Services
             using (StreamReader reader = new StreamReader(fileName))
             {
                 var json = reader.ReadToEnd();
+                if (json.Length == 0)
+                {
+                    return Enumerable.Empty<ShopCart>();
+                }
                 var shopCarts = JsonSerializer.Deserialize<IEnumerable<ShopCart>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                 return shopCarts;
             }
