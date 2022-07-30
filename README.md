@@ -1,4 +1,3 @@
 # Market System
-Added ShopCart model  
-Added ShopCartService  
-Started to apply cart system to the listing page
+Started working on cart system for the main page  
+VS wont launch anymore

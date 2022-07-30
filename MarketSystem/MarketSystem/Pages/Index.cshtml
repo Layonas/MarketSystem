@@ -19,3 +19,35 @@
 </div>
 
 <script src="_framework/blazor.server.js"></script>
+<script>
+    function changeModalValueOnClose() {
+        setTimeout(async () => { 
+            console.log("active");        
+            var modal = document.getElementById("productModal");
+            await modal.addEventListener("hidden.bs.modal", e => {
+                var input = document.getElementById("addAmount");
+                input.value = 0;
+            }); 
+        }, 1000);
+    }
+
+    function addModalToCartButton() {
+        var button = document.getElementById("cartButton");
+        button.removeAttribute("href");
+        button.setAttribute("data-bs-target", "#cartModal");
+        button.setAttribute("data-bs-toggle", "modal");
+    }
+
+    function getOffset(id) {
+        var element = document.getElementById(id);
+        const rect = element.getBoundingClientRect();
+        console.log(rect);
+        console.log(rect.left + window.scrollX);
+        console.log(rect.top + window.scrollY);
+        return {
+            left: rect.left + window.scrollX,
+            top: rect.top + window.scrollY,
+            height: rect.height;
+        };
+    }
+</script>

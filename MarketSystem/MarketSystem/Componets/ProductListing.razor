@@ -1,9 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Components.Web;
+@using Microsoft.JSInterop
 @using Models;
 @using Services;
 @inject JsonFileProductService productService;
 @inject IHttpContextAccessor httpContext;
 @inject ShopCartService shopCartService;
+@inject IJSRuntime js;
 
 <table class="table table-hover">
     <thead>
@@ -43,11 +45,44 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="number" min="0" max="@product.Quantity" @bind="@productList[product.Name]" placeholder="Amount">
+                    <input type="number" min="0" max="@(product.Quantity - productList[product.Name])" id="addAmount" @bind="@addAmount" placeholder="Amount">
+                    @if (productList[product.Name] != 0)
+                    {
+                        <p class="color-red">You have in your cart: @productList[product.Name]</p>
+                    }
                     <button type="button" class="btn btn-primary" @onclick="@(e => addToCart(product))">Add</button>
                 </div>
-            </div>
+            </div>  
         }
+    </div>
+</div>
+
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartTitle" aria-hidden="true" style="left: @button.Item1; top: @(button.Item2 + button.Item3);">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cartTitle">
+                    Your shopping cart
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        @foreach(KeyValuePair<string, int?> entry in productList)
+                        {
+                            if(entry.Value != 0)
+                            {
+                                <p class="card-text">You have @String.Concat(entry.Value, "x") of @entry.Key</p>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -56,6 +91,8 @@
     Dictionary<string, int?> productList;
     private string? agent{ get; set; }
     private ShopCart? shopCart { get; set; }
+    public int addAmount { get; set; } = 0;
+    public Tuple<int, int, int> button { get; set; }
 
     void SelectProduct(Product p)
     {
@@ -64,6 +101,8 @@
 
     void addToCart(Product product)
     {
+        productList[product.Name] = addAmount;
+        addAmount = 0;
         int quantity = Convert.ToInt32(productList[product.Name]);
         Product addedProduct = new Product(product.Name, quantity, product.Price);
 
@@ -82,15 +121,23 @@
         shopCart = shopCartService.GetShopCart(agent);
 
         foreach (var p in productService.GetProducts())
-            if(p is not null || p.Name is not null)
+            if (p is not null || p.Name is not null)
                 productList.Add(p.Name, 0);
 
         if (shopCart is null || shopCart.products is null)
             return;
 
-        foreach(var item in shopCart.products)
+        foreach (var item in shopCart.products)
             productList[item.Name] = item.Quantity;
-
     }
 
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        js.InvokeVoidAsync("changeModalValueOnClose");
+        js.InvokeVoidAsync("addModalToCartButton");
+
+        var btn = js.InvokeAsync<Tuple<int, int, int>>("getOffset", "cartButton");
+        button = btn.Result;
+        return base.OnAfterRenderAsync(firstRender);
+    }
 }
