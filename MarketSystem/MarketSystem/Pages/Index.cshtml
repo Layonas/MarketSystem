@@ -19,3 +19,15 @@
 </div>
 
 <script src="_framework/blazor.server.js"></script>
+<script>
+    function changeModalValueOnClose() {
+        setTimeout(async () => { 
+            console.log("active");        
+            var modal = document.getElementById("productModal");
+            await modal.addEventListener("hidden.bs.modal", e => {
+                var input = document.getElementById("addAmount");
+                input.value = 0;
+            }); 
+        }, 1000);
+    }
+</script>

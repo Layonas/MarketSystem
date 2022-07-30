@@ -1,9 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Components.Web;
+@using Microsoft.JSInterop
 @using Models;
 @using Services;
 @inject JsonFileProductService productService;
 @inject IHttpContextAccessor httpContext;
 @inject ShopCartService shopCartService;
+@inject IJSRuntime js;
 
 <table class="table table-hover">
     <thead>
@@ -43,7 +45,11 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="number" min="0" max="@product.Quantity" @bind="@productList[product.Name]" placeholder="Amount">
+                    <input type="number" min="0" max="@(product.Quantity - productList[product.Name])" id="addAmount" @bind="@addAmount" placeholder="Amount">
+                    @if (productList[product.Name] != 0)
+                    {
+                        <p class="color-red">You have in your cart: @productList[product.Name]</p>
+                    }
                     <button type="button" class="btn btn-primary" @onclick="@(e => addToCart(product))">Add</button>
                 </div>
             </div>
@@ -56,6 +62,7 @@
     Dictionary<string, int?> productList;
     private string? agent{ get; set; }
     private ShopCart? shopCart { get; set; }
+    public int addAmount { get; set; } = 0;
 
     void SelectProduct(Product p)
     {
@@ -64,6 +71,8 @@
 
     void addToCart(Product product)
     {
+        productList[product.Name] = addAmount;
+        addAmount = 0;
         int quantity = Convert.ToInt32(productList[product.Name]);
         Product addedProduct = new Product(product.Name, quantity, product.Price);
 
@@ -90,6 +99,8 @@
 
         foreach(var item in shopCart.products)
             productList[item.Name] = item.Quantity;
+
+        js.InvokeVoidAsync("changeModalValueOnClose");
 
     }
 
