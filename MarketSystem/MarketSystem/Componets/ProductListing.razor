@@ -52,8 +52,37 @@
                     }
                     <button type="button" class="btn btn-primary" @onclick="@(e => addToCart(product))">Add</button>
                 </div>
-            </div>
+            </div>  
         }
+    </div>
+</div>
+
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartTitle" aria-hidden="true" style="left: @button.Item1; top: @(button.Item2 + button.Item3);">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cartTitle">
+                    Your shopping cart
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        @foreach(KeyValuePair<string, int?> entry in productList)
+                        {
+                            if(entry.Value != 0)
+                            {
+                                <p class="card-text">You have @String.Concat(entry.Value, "x") of @entry.Key</p>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -63,6 +92,7 @@
     private string? agent{ get; set; }
     private ShopCart? shopCart { get; set; }
     public int addAmount { get; set; } = 0;
+    public Tuple<int, int, int> button { get; set; }
 
     void SelectProduct(Product p)
     {
@@ -91,17 +121,23 @@
         shopCart = shopCartService.GetShopCart(agent);
 
         foreach (var p in productService.GetProducts())
-            if(p is not null || p.Name is not null)
+            if (p is not null || p.Name is not null)
                 productList.Add(p.Name, 0);
 
         if (shopCart is null || shopCart.products is null)
             return;
 
-        foreach(var item in shopCart.products)
+        foreach (var item in shopCart.products)
             productList[item.Name] = item.Quantity;
-
-        js.InvokeVoidAsync("changeModalValueOnClose");
-
     }
 
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        js.InvokeVoidAsync("changeModalValueOnClose");
+        js.InvokeVoidAsync("addModalToCartButton");
+
+        var btn = js.InvokeAsync<Tuple<int, int, int>>("getOffset", "cartButton");
+        button = btn.Result;
+        return base.OnAfterRenderAsync(firstRender);
+    }
 }
