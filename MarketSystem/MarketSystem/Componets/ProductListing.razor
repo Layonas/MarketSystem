@@ -2,6 +2,7 @@
 @using Microsoft.JSInterop
 @using Models;
 @using Services;
+@using System.Text.Json;
 @inject JsonFileProductService productService;
 @inject IHttpContextAccessor httpContext;
 @inject ShopCartService shopCartService;
@@ -48,16 +49,16 @@
                     <input type="number" min="0" max="@(product.Quantity - productList[product.Name])" id="addAmount" @bind="@addAmount" placeholder="Amount">
                     @if (productList[product.Name] != 0)
                     {
-                        <p class="color-red">You have in your cart: @productList[product.Name]</p>
+                        <p class="text-danger">You have in your cart: @productList[product.Name]</p>
                     }
                     <button type="button" class="btn btn-primary" @onclick="@(e => addToCart(product))">Add</button>
                 </div>
-            </div>  
+            </div>
         }
     </div>
 </div>
 
-<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartTitle" aria-hidden="true" style="left: @button.Item1; top: @(button.Item2 + button.Item3);">
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartTitle" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -80,11 +81,15 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <a href="/ShoppingCart">
+                    <button type="button" class="btn btn-primary" aria-label="Go to cart">Go to cart</button>
+                </a>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
+
 
 @code {
     Product? product;
@@ -92,10 +97,11 @@
     private string? agent{ get; set; }
     private ShopCart? shopCart { get; set; }
     public int addAmount { get; set; } = 0;
-    public Tuple<int, int, int> button { get; set; }
+    public Tuple<double, double, double> button { get; set; } = Tuple.Create(0.0, 0.0, 0.0);
 
     void SelectProduct(Product p)
     {
+        Console.WriteLine(p.Name);
         product = p;
     }
 
@@ -131,13 +137,19 @@
             productList[item.Name] = item.Quantity;
     }
 
-    protected override Task OnAfterRenderAsync(bool firstRender)
+    protected override async void OnAfterRender(bool firstRender)
     {
-        js.InvokeVoidAsync("changeModalValueOnClose");
-        js.InvokeVoidAsync("addModalToCartButton");
+        base.OnAfterRender(firstRender);
 
-        var btn = js.InvokeAsync<Tuple<int, int, int>>("getOffset", "cartButton");
-        button = btn.Result;
-        return base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            await js.InvokeVoidAsync("changeModalValueOnClose");
+            await js.InvokeVoidAsync("addModalToCartButton");
+
+            var btnLeft = await js.InvokeAsync<double>("getOffsetLeft", "cartButton");
+            var btnTop = await js.InvokeAsync<double>("getOffsetTop", "cartButton");
+            var btnHeight = await js.InvokeAsync<double>("getOffsetHeight", "cartButton");
+            button = Tuple.Create(btnLeft, btnTop, btnHeight);
+        }
     }
 }

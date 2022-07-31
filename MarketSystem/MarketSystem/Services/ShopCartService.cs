@@ -59,7 +59,7 @@ namespace MarketSystem.Services
             updateShoppingCart(shopCart);
         }
 
-        private void updateShoppingCart(ShopCart cart)
+        public void updateShoppingCart(ShopCart cart)
         {
             var shoppingCarts = GetShopCarts();
 
@@ -72,7 +72,7 @@ namespace MarketSystem.Services
                 JsonSerializer.Serialize<IEnumerable<ShopCart>>(
                     new Utf8JsonWriter(writer, new JsonWriterOptions
                     {
-                        SkipValidation = true,
+                        SkipValidation = false,
                         Indented = true
                     }), shoppingCarts);
                 writer.Close();
