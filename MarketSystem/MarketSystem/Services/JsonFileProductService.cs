@@ -84,5 +84,21 @@ namespace MarketSystem.Services
                 writer.Close();
             }
         }
+
+        public void updateProductList(IEnumerable<Product> products)
+        {
+            using (var writer = File.OpenWrite(JsonFileName))
+            {
+                JsonSerializer.Serialize<IEnumerable<Product>>(
+                    new Utf8JsonWriter(writer, new JsonWriterOptions
+                    {
+                        SkipValidation = true,
+                        Indented = true
+                    }
+                    ),
+                    products);
+                writer.Close();
+            }
+        }
     }
 }

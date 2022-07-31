@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "uqN57pXnK2JVlibJyuxRjlIEb2NJJ2T64rQ0tNEoZ8JylqEZ1ARUOSW42I4ydWNNFihf0lZ2HVPm6/N6MtFEAA==",
+  "dgSpecHash": "JURTh9iDRvTx0bRSXxAvZrfbur0ySfjkddJDhhBu3n9plshLIUcfsa1W/f3w+9sFMniXoT+LBvvotAvYaUCi1A==",
   "success": true,
   "projectFilePath": "C:\\Users\\Kompiukas\\source\\repos\\MarketSystem\\MarketSystem\\MarketSystem.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Kompiukas\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
   "logs": []
 }

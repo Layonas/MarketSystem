@@ -24,3 +24,5 @@ C:\Users\Kompiukas\source\repos\MarketSystem\MarketSystem\obj\Debug\net6.0\refin
 C:\Users\Kompiukas\source\repos\MarketSystem\MarketSystem\obj\Debug\net6.0\MarketSystem.pdb
 C:\Users\Kompiukas\source\repos\MarketSystem\MarketSystem\obj\Debug\net6.0\MarketSystem.genruntimeconfig.cache
 C:\Users\Kompiukas\source\repos\MarketSystem\MarketSystem\obj\Debug\net6.0\ref\MarketSystem.dll
+C:\Users\Kompiukas\source\repos\MarketSystem\MarketSystem\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\Kompiukas\source\repos\MarketSystem\MarketSystem\obj\Debug\net6.0\MarketSystem.csproj.CopyComplete

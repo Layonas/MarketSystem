@@ -1,33 +1,7 @@
 [
   {
     "id": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
-    "products": [
-      {
-        "Name": "Burger",
-        "Quantity": 2,
-        "Price": 3.4
-      },
-      {
-        "Name": "Apple",
-        "Quantity": 1,
-        "Price": 0.4
-      },
-      {
-        "Name": "Pancake",
-        "Quantity": 1,
-        "Price": 4
-      },
-      {
-        "Name": "Cookie",
-        "Quantity": 1,
-        "Price": 1
-      },
-      {
-        "Name": "Bread",
-        "Quantity": 3,
-        "Price": 2.2
-      }
-    ]
+    "products": []
   },
   {
     "id": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36 Edg/103.0.1264.77",

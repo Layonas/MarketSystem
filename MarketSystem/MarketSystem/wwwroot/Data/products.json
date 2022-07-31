@@ -1,7 +1,7 @@
 [
   {
     "Name": "Bread",
-    "Quantity": 33,
+    "Quantity": 26,
     "Price": 2.2
   },
   {
@@ -16,12 +16,12 @@
   },
   {
     "Name": "Burger",
-    "Quantity": 3,
+    "Quantity": 2,
     "Price": 3.4
   },
   {
     "Name": "Cookie",
-    "Quantity": 2,
+    "Quantity": 1,
     "Price": 1
   },
   {
@@ -41,7 +41,7 @@
   },
   {
     "Name": "Apple",
-    "Quantity": 1,
+    "Quantity": 0,
     "Price": 0.4
   },
   {

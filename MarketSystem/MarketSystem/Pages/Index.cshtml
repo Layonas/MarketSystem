@@ -13,41 +13,45 @@
 <div class="text-center">
 
     @(await Html.RenderComponentAsync<ProductListing>(RenderMode.ServerPrerendered))
-@*    @foreach(var p in Model.products){
-        <h2>@p.Name</h2>
-    }*@
+
 </div>
 
 <script src="_framework/blazor.server.js"></script>
 <script>
     function changeModalValueOnClose() {
-        setTimeout(async () => { 
+        //setTimeout(async () => { 
             console.log("active");        
             var modal = document.getElementById("productModal");
-            await modal.addEventListener("hidden.bs.modal", e => {
+            modal.addEventListener("hidden.bs.modal", e => {
                 var input = document.getElementById("addAmount");
                 input.value = 0;
             }); 
-        }, 1000);
+        //}, 1000);
     }
 
     function addModalToCartButton() {
         var button = document.getElementById("cartButton");
-        button.removeAttribute("href");
+        var anchor = document.getElementById("cartAnchor");
+        anchor.removeAttribute("href");
         button.setAttribute("data-bs-target", "#cartModal");
         button.setAttribute("data-bs-toggle", "modal");
     }
 
-    function getOffset(id) {
+    function getOffsetLeft(id) {
         var element = document.getElementById(id);
         const rect = element.getBoundingClientRect();
-        console.log(rect);
-        console.log(rect.left + window.scrollX);
-        console.log(rect.top + window.scrollY);
-        return {
-            left: rect.left + window.scrollX,
-            top: rect.top + window.scrollY,
-            height: rect.height;
-        };
+        return rect.left + window.scrollX;
+    }
+
+    function getOffsetTop(id){
+        var element = document.getElementById(id);
+        const rect = element.getBoundingClientRect();
+        return rect.top + window.scrollY;
+    }
+
+    function getOffsetHeight(id){
+        var element = document.getElementById(id);
+        const rect = element.getBoundingClientRect();
+        return rect.height;
     }
 </script>
